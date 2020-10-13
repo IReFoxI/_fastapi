@@ -18,6 +18,10 @@ def home():
 def get_item(pk: int, q: str = None):
     return {"key": pk, "q": q}
 
+@app.get('/user/{pk}/items/{item}/')
+def get_user_item(pk: int, item: str):
+    return {"user": pk, "item": item}
+
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="127.0.0.1", port=8080,)
+    uvicorn.run(app, host="127.0.0.1", port=8080)
