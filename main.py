@@ -2,7 +2,7 @@ import uvicorn
 from fastapi import FastAPI
 # from pydantic import BaseModel
 # import time
-# import asyncio
+import asyncio
 
 
 app = FastAPI()
@@ -15,13 +15,13 @@ def home():
 
 
 @app.get("/{pk}")
-def get_item(pk: int, q: str = None):
+async def get_item(pk: int, q: str = None):
     return {"key": pk, "q": q}
 
 @app.get('/user/{pk}/items/{item}/')
-def get_user_item(pk: int, item: str):
+async def get_user_item(pk: int, item: str):
     return {"user": pk, "item": item}
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="127.0.0.1", port=8080)
+    uvicorn.run(app, host="127.0.0.1", port=8000)
