@@ -5,6 +5,7 @@ from requests_html import HTMLSession
 
 from tortoise import fields
 from tortoise.models import Model
+from tortoise.contrib.fastapi import register_tortoise
 from tortoise.contrib.pydantic import pydantic_model_creator
 
 
@@ -22,11 +23,6 @@ class City(Model):
 
 City_Pydantic = pydantic_model_creator(City, name='City')
 CityIn_Pydantic = pydantic_model_creator(City, name='CityIn', exclude_readonly=True)
-
-
-# class City(BaseModel):
-#     name: str
-#     timezone: str
 
 
 @app.get("/")
@@ -62,6 +58,12 @@ def delete_city(city_id: int):
     db.pop(city_id)
     return 'Deleted'
 
-
+register_tortoise(
+    app,
+    db_url='sqlite://db.sqlite3',
+    modules={'models':['main']},
+    generate_schemas=True,
+    add_exception_handlers=True
+)
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8000)
