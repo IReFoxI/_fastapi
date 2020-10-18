@@ -9,13 +9,13 @@ async def google_index_checker(sem):
 
     async with sem:
         async with aiohttp.ClientSession() as session:
-            async with session.get(f'http://127.0.0.1:8000/user/123/items/qqw/') as response_google:
+            async with session.get(f'http://127.0.0.1:8000/cities') as response_google:
                 html_code = await response_google.text()
                 print(html_code, sem)
 
 async def main():
     global tasks
-    sem = asyncio.Semaphore(1000)
+    sem = asyncio.Semaphore(500)
     for _ in range(100000):
         task = asyncio.Task(google_index_checker(sem))
         tasks.append(task)
