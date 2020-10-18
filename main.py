@@ -1,8 +1,11 @@
 import uvicorn
 from fastapi import FastAPI
 from pydantic import BaseModel
-# import time
 from requests_html import HTMLSession
+
+from tortoise import fields
+from tortoise.models import Model
+from tortoise.contrib.pydantic import pydantic_model_creator
 
 
 app = FastAPI()
@@ -12,9 +15,18 @@ session = HTMLSession()
 db = []
 
 
-class City(BaseModel):
-    name: str
-    timezone: str
+class City(Model):
+    id = fields.IntField(pk=True)
+    name = fields.CharField(50, unique=True)
+    timezone = fields.CharField(50)
+
+City_Pydantic = pydantic_model_creator(City, name='City')
+CityIn_Pydantic = pydantic_model_creator(City, name='CityIn', exclude_readonly=True)
+
+
+# class City(BaseModel):
+#     name: str
+#     timezone: str
 
 
 @app.get("/")
