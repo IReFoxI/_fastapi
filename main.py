@@ -65,5 +65,7 @@ register_tortoise(
     generate_schemas=True,
     add_exception_handlers=True
 )
+
+
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8000)
